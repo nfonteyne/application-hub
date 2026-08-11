@@ -1,0 +1,40 @@
+# Standalone compose file for local testing without a real Authentik instance.
+# Use with DEV_BYPASS_AUTH=true in .env. Run with:
+#   docker compose -f docker-compose.dev.yml up --build
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: application_hub
+      POSTGRES_USER: application_hub
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata_dev:/var/lib/postgresql/data
+
+  # Optional locally: logo upload just returns a clear error if GARAGE_*
+  # env vars are left unset in .env, everything else still works.
+  garage:
+    image: dxflrs/garage:v1.0.1
+    restart: unless-stopped
+    ports:
+      - "3900:3900"
+      - "3903:3903"
+    volumes:
+      - ./garage/garage.toml:/etc/garage.toml:ro
+      - garage_meta_dev:/var/lib/garage/meta
+      - garage_data_dev:/var/lib/garage/data
+
+volumes:
+  pgdata_dev:
+  garage_meta_dev:
+  garage_data_dev:

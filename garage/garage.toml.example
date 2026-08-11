@@ -1,0 +1,25 @@
+# Copy this file to garage.toml (gitignored) and replace the two secrets
+# below before starting the stack. See README's "Stockage des logos (Garage)"
+# section for the full one-time setup (cluster layout, bucket, API key).
+metadata_dir = "/var/lib/garage/meta"
+data_dir = "/var/lib/garage/data"
+db_engine = "lmdb"
+
+# Single-node deployment: nothing to replicate.
+replication_factor = 1
+
+rpc_bind_addr = "[::]:3901"
+rpc_public_addr = "garage:3901"
+# Generate with: openssl rand -hex 32
+rpc_secret = "REPLACE_WITH_OPENSSL_RAND_HEX_32"
+
+[s3_api]
+s3_region = "garage"
+api_bind_addr = "[::]:3900"
+root_domain = ".s3.garage.localhost"
+
+[admin]
+api_bind_addr = "[::]:3903"
+# Generate with: openssl rand -base64 32 (any random string works, no format requirement)
+admin_token = "REPLACE_WITH_RANDOM_TOKEN"
+metrics_token = "REPLACE_WITH_RANDOM_TOKEN"

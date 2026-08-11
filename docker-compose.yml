@@ -1,0 +1,61 @@
+services:
+  app:
+    # Built and pushed by .github/workflows/ci.yml on every push to main.
+    # Watchtower on the server picks up new digests on this tag automatically.
+    image: ${APP_IMAGE:-ghcr.io/nfonteyne/application-hub:latest}
+    container_name: application-hub
+    restart: unless-stopped
+    env_file: .env
+    depends_on:
+      - postgres
+    networks:
+      - default
+      - traefik-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
+      - "traefik.http.routers.application-hub.rule=Host(`${APP_DOMAIN:-hub.dandrove.com}`)"
+      - "traefik.http.routers.application-hub.entrypoints=websecure"
+      - "traefik.http.routers.application-hub.tls.certresolver=myresolver"
+      - "traefik.http.services.application-hub.loadbalancer.server.port=3000"
+    # No host port published: Traefik reaches the container directly over
+    # traefik-proxy. Add "ports: ['3000:3000']" temporarily if you need
+    # to hit the app straight from the host while debugging.
+
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: application_hub
+      POSTGRES_USER: application_hub
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - default
+
+  # S3-compatible object storage for uploaded app logos. Not exposed to
+  # Traefik/the internet — the app talks to it over the internal network
+  # only, and itself proxies logo images out to browsers (see
+  # GET /api/apps/:id/logo). One-time bucket/key setup: see README.
+  garage:
+    image: dxflrs/garage:v1.0.1
+    container_name: application-hub-garage
+    restart: unless-stopped
+    volumes:
+      - ./garage/garage.toml:/etc/garage.toml:ro
+      - garage_meta:/var/lib/garage/meta
+      - garage_data:/var/lib/garage/data
+    networks:
+      - default
+
+networks:
+  default:
+  traefik-proxy:
+    external: true
+    name: ${TRAEFIK_NETWORK_NAME:-traefik-proxy}
+
+volumes:
+  pgdata:
+  garage_meta:
+  garage_data:

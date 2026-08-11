@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mon profil — Application Hub</title>
+<script src="/js/theme-init.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="app-header">
+  <nav id="main-nav"></nav>
+</header>
+<main>
+  <h1>Mon profil</h1>
+  <p class="page-subtitle">Informations fournies par Authentik.</p>
+  <div id="error"></div>
+
+  <div class="panel">
+    <div class="profile-header">
+      <span id="profile-avatar"></span>
+      <div>
+        <div style="font-weight:700; font-size:1.1rem;" id="profile-name"></div>
+        <div class="note" id="profile-email"></div>
+      </div>
+    </div>
+    <p class="note" id="profile-groups-label">Groupes</p>
+    <div class="profile-groups" id="profile-groups"></div>
+    <p id="authentik-account-link"></p>
+  </div>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/render.js"></script>
+<script src="/js/nav.js"></script>
+<script src="/js/profile.js"></script>
+</body>
+</html>

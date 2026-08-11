@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administration — Application Hub</title>
+<script src="/js/theme-init.js"></script>
+<link rel="stylesheet" href="/css/style.css">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+<header class="app-header">
+  <nav id="main-nav"></nav>
+</header>
+<main>
+  <h1>Administration</h1>
+  <p class="page-subtitle">Ajoutez, modifiez ou retirez les applications listées sur le hub, et organisez-les par catégorie.</p>
+  <div id="error"></div>
+
+  <div class="section-header">
+    <h2 style="margin:0">Applications</h2>
+    <button type="button" id="toggle-add-app">+ Ajouter une application</button>
+  </div>
+
+  <div class="panel" id="add-app-panel" style="display:none">
+    <form id="add-app-form" class="stacked-form">
+      <input type="hidden" name="id">
+      <label>Nom <input name="name" required></label>
+      <label>Description <input name="description"></label>
+      <label>URL <input name="url" type="url" required placeholder="https://..."></label>
+      <div class="form-row">
+        <label>Icône (emoji) ou URL d'image externe <input name="icon" placeholder="🚀"></label>
+        <label>Groupe Authentik requis <input name="requiredGroup" placeholder="laisser vide = visible par tous"></label>
+      </div>
+      <div class="form-row">
+        <label>Catégorie
+          <select name="categoryId" id="app-category-select">
+            <option value="">Aucune catégorie</option>
+          </select>
+        </label>
+        <label>Position <input name="position" type="number" value="0"></label>
+      </div>
+      <label>Logo téléversé (prioritaire sur le champ icône/URL ci-dessus)
+        <input name="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml">
+      </label>
+      <div class="current-logo" id="current-logo-wrap" style="display:none">
+        <img id="current-logo-img" alt="Logo actuel">
+        <button type="button" class="secondary" id="remove-logo-btn">Supprimer le logo actuel</button>
+      </div>
+      <div class="form-row">
+        <button type="submit" id="app-form-submit">Ajouter</button>
+        <button type="button" class="secondary" id="cancel-app-form">Annuler</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>URL</th>
+          <th>Catégorie</th>
+          <th>Groupe requis</th>
+          <th>Position</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="apps-table-body"></tbody>
+    </table>
+    <p class="empty" id="apps-empty" style="display:none">Aucune application pour le moment.</p>
+  </div>
+
+  <div class="section-header">
+    <h2 style="margin:0">Catégories</h2>
+    <button type="button" id="toggle-add-category">+ Ajouter une catégorie</button>
+  </div>
+
+  <div class="panel" id="add-category-panel" style="display:none">
+    <form id="add-category-form" class="stacked-form">
+      <input type="hidden" name="id">
+      <div class="form-row">
+        <label>Nom <input name="name" required></label>
+        <label>Position <input name="position" type="number" value="0"></label>
+      </div>
+      <div class="form-row">
+        <button type="submit" id="category-form-submit">Ajouter</button>
+        <button type="button" class="secondary" id="cancel-category-form">Annuler</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Position</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="categories-table-body"></tbody>
+    </table>
+    <p class="empty" id="categories-empty" style="display:none">Aucune catégorie pour le moment.</p>
+  </div>
+</main>
+
+<script src="/js/api.js"></script>
+<script src="/js/render.js"></script>
+<script src="/js/nav.js"></script>
+<script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "application-hub",
+  "version": "1.0.0",
+  "description": "Portail interne listant les applications accessibles, authentification via Authentik (OIDC)",
+  "private": true,
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "migrate": "node src/db/migrate.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.600.0",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "multer": "^2.0.0",
+    "openid-client": "^6.1.7",
+    "pg": "^8.13.1"
+  }
+}

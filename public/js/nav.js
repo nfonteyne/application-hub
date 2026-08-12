@@ -31,15 +31,16 @@ async function initNav(activePage) {
           <span>${escapeHtml(me.name)}${me.isAdmin ? ' <span class="badge">admin</span>' : ''}</span>
         </button>
         <div class="nav-profile-dropdown" id="nav-profile-dropdown">
-          <a href="/profile.html">Mon profil</a>
-          ${me.authentikAccountUrl ? `<a href="${escapeHtml(me.authentikAccountUrl)}" target="_blank" rel="noopener noreferrer">Mon compte</a>` : ''}
-          ${me.isAdmin ? '<a href="/admin.html">Administration</a>' : ''}
-          <a href="/auth/logout">Se déconnecter</a>
+          <a href="/profile.html">${t('nav.myProfile')}</a>
+          ${me.authentikAccountUrl ? `<a href="${escapeHtml(me.authentikAccountUrl)}" target="_blank" rel="noopener noreferrer">${t('nav.myAccount')}</a>` : ''}
+          ${me.isAdmin ? `<a href="/admin.html">${t('nav.admin')}</a>` : ''}
+          <a href="/auth/logout">${t('nav.logout')}</a>
         </div>
       </div>
     </div>
     <div class="nav-controls">
-      <button type="button" class="icon-btn" id="theme-toggle" title="Changer de thème" aria-label="Changer de thème"></button>
+      <button type="button" class="icon-btn" id="lang-toggle" title="${t('nav.langToggle')}" aria-label="${t('nav.langToggle')}">${getLang().toUpperCase()}</button>
+      <button type="button" class="icon-btn" id="theme-toggle" title="${t('nav.themeToggle')}" aria-label="${t('nav.themeToggle')}"></button>
     </div>
   `;
 
@@ -64,6 +65,9 @@ async function initNav(activePage) {
   updateThemeToggleIcon();
   document.getElementById('theme-toggle').addEventListener('click', () => {
     applyTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+  });
+  document.getElementById('lang-toggle').addEventListener('click', () => {
+    setLang(getLang() === 'fr' ? 'en' : 'fr');
   });
 
   return me;

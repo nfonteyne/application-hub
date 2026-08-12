@@ -17,7 +17,7 @@ function groupByCategory(apps) {
   for (const app of apps) {
     const key = app.category_id || 'none';
     if (!current || current.key !== key) {
-      current = { key, name: app.category_name || 'Autres', apps: [] };
+      current = { key, name: app.category_name || t('apps.otherCategory'), apps: [] };
       sections.push(current);
     }
     current.apps.push(app);
@@ -40,13 +40,13 @@ async function loadApps() {
   try {
     const apps = await api.get('/api/apps');
     if (!apps.length) {
-      container.innerHTML = `<p class="empty">Aucune application n'est encore disponible.</p>`;
+      container.innerHTML = `<p class="empty">${t('apps.empty')}</p>`;
       return;
     }
     const sections = groupByCategory(apps);
     // Only show category headings once categories are actually in use —
-    // a single "Autres" section (nobody has set up categories yet) stays unlabeled.
-    const showHeadings = sections.length > 1 || sections[0].name !== 'Autres';
+    // a single "Other" section (nobody has set up categories yet) stays unlabeled.
+    const showHeadings = sections.length > 1 || sections[0].name !== t('apps.otherCategory');
     container.innerHTML = sections.map((s) => categorySectionTemplate(s, showHeadings)).join('');
   } catch (err) {
     errorBox.textContent = err.message;

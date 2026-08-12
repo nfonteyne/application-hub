@@ -14,7 +14,7 @@ function renderProfile(me) {
 
   const accountLink = document.getElementById('authentik-account-link');
   if (me.authentikAccountUrl) {
-    accountLink.innerHTML = `<a href="${escapeHtml(me.authentikAccountUrl)}" target="_blank" rel="noopener noreferrer">Gérer mon compte Authentik (mot de passe, etc.)</a>`;
+    accountLink.innerHTML = `<a href="${escapeHtml(me.authentikAccountUrl)}" target="_blank" rel="noopener noreferrer">${t('profile.manageAccount')}</a>`;
   }
 }
 

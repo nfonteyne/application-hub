@@ -13,43 +13,43 @@
   <nav id="main-nav"></nav>
 </header>
 <main>
-  <h1>Administration</h1>
-  <p class="page-subtitle">Ajoutez, modifiez ou retirez les applications listées sur le hub, et organisez-les par catégorie.</p>
+  <h1 data-i18n="admin.title">Administration</h1>
+  <p class="page-subtitle" data-i18n="admin.subtitle">Ajoutez, modifiez ou retirez les applications listées sur le hub, et organisez-les par catégorie.</p>
   <div id="error"></div>
 
   <div class="section-header">
-    <h2 style="margin:0">Applications</h2>
-    <button type="button" id="toggle-add-app">+ Ajouter une application</button>
+    <h2 style="margin:0" data-i18n="admin.appsHeading">Applications</h2>
+    <button type="button" id="toggle-add-app" data-i18n="admin.addApp">+ Ajouter une application</button>
   </div>
 
   <div class="panel" id="add-app-panel" style="display:none">
     <form id="add-app-form" class="stacked-form">
       <input type="hidden" name="id">
-      <label>Nom <input name="name" required></label>
-      <label>Description <input name="description"></label>
-      <label>URL <input name="url" type="url" required placeholder="https://..."></label>
+      <label><span data-i18n="admin.form.name">Nom</span> <input name="name" required></label>
+      <label><span data-i18n="admin.form.description">Description</span> <input name="description"></label>
+      <label><span data-i18n="admin.form.url">URL</span> <input name="url" type="url" required placeholder="https://..."></label>
       <div class="form-row">
-        <label>Icône (emoji) ou URL d'image externe <input name="icon" placeholder="🚀"></label>
-        <label>Groupe Authentik requis <input name="requiredGroup" placeholder="laisser vide = visible par tous"></label>
+        <label><span data-i18n="admin.form.icon">Icône (emoji) ou URL d'image externe</span> <input name="icon" placeholder="🚀"></label>
+        <label><span data-i18n="admin.form.requiredGroup">Groupe Authentik requis</span> <input name="requiredGroup" data-i18n-placeholder="admin.form.requiredGroupPlaceholder" placeholder="laisser vide = visible par tous"></label>
       </div>
       <div class="form-row">
-        <label>Catégorie
+        <label><span data-i18n="admin.form.category">Catégorie</span>
           <select name="categoryId" id="app-category-select">
-            <option value="">Aucune catégorie</option>
+            <option value="" data-i18n="admin.form.noCategory">Aucune catégorie</option>
           </select>
         </label>
-        <label>Position <input name="position" type="number" value="0"></label>
+        <label><span data-i18n="admin.form.position">Position</span> <input name="position" type="number" value="0"></label>
       </div>
-      <label>Logo téléversé (prioritaire sur le champ icône/URL ci-dessus)
+      <label><span data-i18n="admin.form.logo">Logo téléversé (prioritaire sur le champ icône/URL ci-dessus)</span>
         <input name="logoFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml">
       </label>
       <div class="current-logo" id="current-logo-wrap" style="display:none">
-        <img id="current-logo-img" alt="Logo actuel">
-        <button type="button" class="secondary" id="remove-logo-btn">Supprimer le logo actuel</button>
+        <img id="current-logo-img" data-i18n-alt="admin.form.currentLogoAlt" alt="Logo actuel">
+        <button type="button" class="secondary" id="remove-logo-btn" data-i18n="admin.form.removeLogo">Supprimer le logo actuel</button>
       </div>
       <div class="form-row">
-        <button type="submit" id="app-form-submit">Ajouter</button>
-        <button type="button" class="secondary" id="cancel-app-form">Annuler</button>
+        <button type="submit" id="app-form-submit" data-i18n="admin.form.add">Ajouter</button>
+        <button type="button" class="secondary" id="cancel-app-form" data-i18n="admin.form.cancel">Annuler</button>
       </div>
     </form>
   </div>
@@ -58,34 +58,34 @@
     <table class="data-table">
       <thead>
         <tr>
-          <th>Nom</th>
-          <th>URL</th>
-          <th>Catégorie</th>
-          <th>Groupe requis</th>
-          <th>Position</th>
+          <th data-i18n="admin.table.name">Nom</th>
+          <th data-i18n="admin.table.url">URL</th>
+          <th data-i18n="admin.table.category">Catégorie</th>
+          <th data-i18n="admin.table.requiredGroup">Groupe requis</th>
+          <th data-i18n="admin.table.position">Position</th>
           <th></th>
         </tr>
       </thead>
       <tbody id="apps-table-body"></tbody>
     </table>
-    <p class="empty" id="apps-empty" style="display:none">Aucune application pour le moment.</p>
+    <p class="empty" id="apps-empty" style="display:none" data-i18n="admin.apps.empty">Aucune application pour le moment.</p>
   </div>
 
   <div class="section-header">
-    <h2 style="margin:0">Catégories</h2>
-    <button type="button" id="toggle-add-category">+ Ajouter une catégorie</button>
+    <h2 style="margin:0" data-i18n="admin.categoriesHeading">Catégories</h2>
+    <button type="button" id="toggle-add-category" data-i18n="admin.addCategory">+ Ajouter une catégorie</button>
   </div>
 
   <div class="panel" id="add-category-panel" style="display:none">
     <form id="add-category-form" class="stacked-form">
       <input type="hidden" name="id">
       <div class="form-row">
-        <label>Nom <input name="name" required></label>
-        <label>Position <input name="position" type="number" value="0"></label>
+        <label><span data-i18n="admin.form.name">Nom</span> <input name="name" required></label>
+        <label><span data-i18n="admin.form.position">Position</span> <input name="position" type="number" value="0"></label>
       </div>
       <div class="form-row">
-        <button type="submit" id="category-form-submit">Ajouter</button>
-        <button type="button" class="secondary" id="cancel-category-form">Annuler</button>
+        <button type="submit" id="category-form-submit" data-i18n="admin.form.add">Ajouter</button>
+        <button type="button" class="secondary" id="cancel-category-form" data-i18n="admin.form.cancel">Annuler</button>
       </div>
     </form>
   </div>
@@ -94,17 +94,18 @@
     <table class="data-table">
       <thead>
         <tr>
-          <th>Nom</th>
-          <th>Position</th>
+          <th data-i18n="admin.table.name">Nom</th>
+          <th data-i18n="admin.table.position">Position</th>
           <th></th>
         </tr>
       </thead>
       <tbody id="categories-table-body"></tbody>
     </table>
-    <p class="empty" id="categories-empty" style="display:none">Aucune catégorie pour le moment.</p>
+    <p class="empty" id="categories-empty" style="display:none" data-i18n="admin.categories.empty">Aucune catégorie pour le moment.</p>
   </div>
 </main>
 
+<script src="/js/i18n.js"></script>
 <script src="/js/api.js"></script>
 <script src="/js/render.js"></script>
 <script src="/js/nav.js"></script>

@@ -24,7 +24,7 @@ function openForm(app) {
     form.requiredGroup.value = app.required_group || '';
     form.categoryId.value = app.category_id || '';
     form.position.value = app.position;
-    submitBtn.textContent = 'Enregistrer';
+    submitBtn.textContent = t('admin.form.save');
     if (app.logo_object_key) {
       currentLogoWrap.style.display = 'flex';
       currentLogoImg.src = `/api/apps/${app.id}/logo`;
@@ -32,7 +32,7 @@ function openForm(app) {
       currentLogoWrap.style.display = 'none';
     }
   } else {
-    submitBtn.textContent = 'Ajouter';
+    submitBtn.textContent = t('admin.form.add');
     currentLogoWrap.style.display = 'none';
   }
   panel.style.display = 'block';
@@ -68,11 +68,11 @@ function appRowTemplate(app) {
       <td>${appIconHtml(app)} ${escapeHtml(app.name)}</td>
       <td><a href="${escapeHtml(app.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(app.url)}</a></td>
       <td>${app.category_name ? escapeHtml(app.category_name) : '<span class="note">—</span>'}</td>
-      <td>${app.required_group ? `<span class="chip">${escapeHtml(app.required_group)}</span>` : '<span class="note">Tous</span>'}</td>
+      <td>${app.required_group ? `<span class="chip">${escapeHtml(app.required_group)}</span>` : `<span class="note">${t('admin.table.all')}</span>`}</td>
       <td>${app.position}</td>
       <td class="row-actions">
-        <button type="button" class="secondary" data-action="edit">Modifier</button>
-        <button type="button" class="danger" data-action="delete">Supprimer</button>
+        <button type="button" class="secondary" data-action="edit">${t('admin.table.edit')}</button>
+        <button type="button" class="danger" data-action="delete">${t('admin.table.delete')}</button>
       </td>
     </tr>
   `;
@@ -100,7 +100,7 @@ document.getElementById('apps-table-body').addEventListener('click', async (e) =
   if (btn.dataset.action === 'edit') {
     openForm(app);
   } else if (btn.dataset.action === 'delete') {
-    if (!confirm(`Supprimer "${app.name}" ?`)) return;
+    if (!confirm(t('admin.confirmDeleteApp', { name: app.name }))) return;
     try {
       await api.del(`/api/apps/${app.id}`);
       await loadApps();
@@ -120,7 +120,7 @@ async function uploadLogo(appId, file) {
   }
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.error || 'Échec du téléversement du logo');
+    throw new Error(body.error || t('admin.uploadLogoError'));
   }
   return res.json();
 }
@@ -164,9 +164,9 @@ function openCategoryForm(category) {
   if (category) {
     categoryForm.name.value = category.name;
     categoryForm.position.value = category.position;
-    categorySubmitBtn.textContent = 'Enregistrer';
+    categorySubmitBtn.textContent = t('admin.form.save');
   } else {
-    categorySubmitBtn.textContent = 'Ajouter';
+    categorySubmitBtn.textContent = t('admin.form.add');
   }
   categoryPanel.style.display = 'block';
   categoryForm.name.focus();
@@ -189,8 +189,8 @@ function categoryRowTemplate(category) {
       <td>${escapeHtml(category.name)}</td>
       <td>${category.position}</td>
       <td class="row-actions">
-        <button type="button" class="secondary" data-action="edit">Modifier</button>
-        <button type="button" class="danger" data-action="delete">Supprimer</button>
+        <button type="button" class="secondary" data-action="edit">${t('admin.table.edit')}</button>
+        <button type="button" class="danger" data-action="delete">${t('admin.table.delete')}</button>
       </td>
     </tr>
   `;
@@ -200,7 +200,7 @@ function populateCategorySelect(categories) {
   const select = document.getElementById('app-category-select');
   const selected = select.value;
   select.innerHTML =
-    '<option value="">Aucune catégorie</option>' +
+    `<option value="">${t('admin.form.noCategory')}</option>` +
     categories.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
   select.value = selected;
 }
@@ -228,7 +228,7 @@ document.getElementById('categories-table-body').addEventListener('click', async
   if (btn.dataset.action === 'edit') {
     openCategoryForm(category);
   } else if (btn.dataset.action === 'delete') {
-    if (!confirm(`Supprimer la catégorie "${category.name}" ? Les applications associées deviendront sans catégorie.`)) return;
+    if (!confirm(t('admin.confirmDeleteCategory', { name: category.name }))) return;
     try {
       await api.del(`/api/categories/${category.id}`);
       await loadCategories();

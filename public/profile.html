@@ -13,8 +13,8 @@
   <nav id="main-nav"></nav>
 </header>
 <main>
-  <h1>Mon profil</h1>
-  <p class="page-subtitle">Informations fournies par Authentik.</p>
+  <h1 data-i18n="profile.title">Mon profil</h1>
+  <p class="page-subtitle" data-i18n="profile.subtitle">Informations fournies par Authentik.</p>
   <div id="error"></div>
 
   <div class="panel">
@@ -25,12 +25,13 @@
         <div class="note" id="profile-email"></div>
       </div>
     </div>
-    <p class="note" id="profile-groups-label">Groupes</p>
+    <p class="note" id="profile-groups-label" data-i18n="profile.groups">Groupes</p>
     <div class="profile-groups" id="profile-groups"></div>
     <p id="authentik-account-link"></p>
   </div>
 </main>
 
+<script src="/js/i18n.js"></script>
 <script src="/js/api.js"></script>
 <script src="/js/render.js"></script>
 <script src="/js/nav.js"></script>

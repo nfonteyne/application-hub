@@ -382,4 +382,11 @@ table.data-table .row-actions button { padding: 0.35rem 0.7rem; font-size: 0.82r
 @media (max-width: 640px) {
   nav#main-nav { min-height: 54px; }
   .form-row { flex-direction: column; }
+
+  .card-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+  .app-tile { padding: 0.85rem; gap: 0.4rem; }
+  .app-tile-icon { width: 36px; height: 36px; font-size: 1.2rem; }
+  .app-tile-icon img { width: 22px; height: 22px; }
+  .app-tile-name { font-size: 0.92rem; }
+  .app-tile-desc { font-size: 0.8rem; }
 }

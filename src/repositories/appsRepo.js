@@ -8,7 +8,9 @@ const BASE_SELECT = `
   LEFT JOIN app_categories c ON c.id = a.category_id
 `;
 // Uncategorized apps (category_position IS NULL) sort after every category.
-const ORDER_BY = 'ORDER BY (c.position IS NULL), c.position, a.position, a.name';
+// c.id is included so categories that share the same position still stay
+// grouped together instead of interleaving by app position/name.
+const ORDER_BY = 'ORDER BY (c.position IS NULL), c.position, c.id, a.position, a.name';
 
 async function findAll() {
   const { rows } = await pool.query(`${BASE_SELECT} ${ORDER_BY}`);

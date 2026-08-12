@@ -27,11 +27,11 @@ function avatarHtml(user, extraClass) {
 // URL or a short emoji/glyph — a cheap heuristic tells them apart.
 function appIconHtml(app) {
   if (app.logo_object_key) {
-    return `<img src="/api/apps/${app.id}/logo" alt="">`;
+    return `<img class="app-icon" src="/api/apps/${app.id}/logo" alt="">`;
   }
   const icon = app.icon;
   if (icon && (/^https?:\/\//.test(icon) || icon.startsWith('/'))) {
-    return `<img src="${escapeHtml(icon)}" alt="">`;
+    return `<img class="app-icon" src="${escapeHtml(icon)}" alt="">`;
   }
   return escapeHtml(icon || '\u{1F5C2}️');
 }

@@ -14,10 +14,12 @@ Portail interne listant les applications accessibles à l'équipe, sous forme de
 
 ## Démarrage rapide (serveur avec Traefik)
 
+Pas besoin de cloner le dépôt : l'image est publiée sur `ghcr.io`, il suffit de récupérer `docker-compose.yml` et le modèle `.env` sur le serveur cible.
+
 ```bash
-git clone <repo-url> application-hub
-cd application-hub
-cp .env.example .env
+mkdir application-hub && cd application-hub
+curl -fsSLO https://raw.githubusercontent.com/nfonteyne/application-hub/main/docker-compose.yml
+curl -fsSL https://raw.githubusercontent.com/nfonteyne/application-hub/main/.env.example -o .env
 ```
 
 Éditer `.env` (au minimum) :
@@ -47,7 +49,7 @@ Puis démarrer :
 
 ```bash
 docker network create traefik-proxy   # si le réseau n'existe pas déjà
-docker compose up -d --build
+docker compose up -d
 ```
 
 Pas de port publié sur l'hôte : Traefik parle directement au conteneur `application-hub` sur le réseau `traefik-proxy`, port 3000.
@@ -78,10 +80,11 @@ Les logos téléversés depuis `/admin.html` sont stockés dans [Garage](https:/
 
 Configuration initiale (une seule fois) :
 
-1. Copier le modèle de config et générer les deux secrets :
+1. Récupérer le modèle de config (pas besoin de cloner le dépôt) et générer les deux secrets :
 
    ```bash
-   cp garage/garage.toml.example garage/garage.toml
+   mkdir -p garage
+   curl -fsSL https://raw.githubusercontent.com/nfonteyne/application-hub/main/garage/garage.toml.example -o garage/garage.toml
    openssl rand -hex 32      # à coller dans rpc_secret
    openssl rand -base64 32   # à coller dans admin_token (et une autre valeur dans metrics_token)
    ```
